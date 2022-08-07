@@ -27,7 +27,7 @@ class Queue:
     def enqueue(self, value):
         if self.has_space():
             item_to_add = Node(value)
-            # print('Adding ' + str(item_to_add.get_value().value) + ' to the queue!')
+            # print('Adding ' + str(item_to_add.get_value()) + ' to the queue!')
             if self.is_empty():
                 self.head = item_to_add
                 self.tail = item_to_add
@@ -42,7 +42,7 @@ class Queue:
     def dequeue(self):
         if not self.is_empty():
             item_to_remove = self.head
-            # print('Removing ' + str(item_to_remove.get_value().value) + ' from the queue!')
+            # print('Removing ' + str(item_to_remove.get_value()) + ' from the queue!')
             if self.get_size() == 1:
                 self.head = None
                 self.tail = None

@@ -1,9 +1,29 @@
 from queue import Queue
+from collections import deque
 
 class TreeNode:
+
     def __init__(self, value):
         self.value = value
-        self.children= []
+        self.children = []
+
+    def __str__(self):
+        stack = deque()
+        stack.append([self, 0])
+        level_str = "\n"
+        while len(stack) > 0:
+            node, level = stack.pop()
+      
+            if level > 0:
+                level_str += "| "*(level-1)+ "|-"
+            level_str += str(node.value)
+            level_str += "\n"
+            level+=1
+            for child in reversed(node.children):
+                stack.append([child, level])
+
+        return level_str
+    
 
     def __repr__(self) -> str:
         return str(self.value)
@@ -30,7 +50,7 @@ class TreeNode:
             else:
                 for child in current_node.children:
                     frontier.enqueue(child)
-        
+        print('{} is not in the tree'.format(goal))
         return 
 
     def search_path(self, goal):
@@ -49,9 +69,28 @@ class TreeNode:
                     new_path = current_path.copy()
                     new_path.append(child)
                     frontier.enqueue(new_path)
-        
-        return         
+        print('{} is not in the tree'.format(goal))
+        return
 
+
+sample_root_node = TreeNode("Home")
+docs = TreeNode("Documents")
+photos = TreeNode("Photos")
+
+sample_root_node.children = [docs, photos]
+sample_root_node.children = [docs, photos]
+my_wish = TreeNode("WishList.txt")
+my_todo = TreeNode("TodoList.txt")
+my_cat = TreeNode("Fluffy.jpg")
+my_dog = TreeNode("Spot.jpg")
+docs.children = [my_wish, my_todo]
+photos.children = [my_cat, my_dog]
+
+print(sample_root_node)
+
+goal_path = sample_root_node.search_path('Spot.jpg')
+
+print(goal_path)
 
 root_node = TreeNode(1)
 
@@ -65,6 +104,8 @@ root_node.children[1].add_child(TreeNode(6))
 root_node.children[1].add_child(TreeNode(7))
 
 # root_node.traverse()
+
+print(root_node)
 
 searched_node = root_node.search(7)
 
