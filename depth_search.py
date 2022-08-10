@@ -1,4 +1,4 @@
-from queue import Queue
+from stack import Stack
 from collections import deque
 
 class TreeNode:
@@ -6,6 +6,10 @@ class TreeNode:
     def __init__(self, value):
         self.value = value
         self.children = []
+    
+
+    def __repr__(self) -> str:
+        return str(self.value)
 
     def __str__(self):
         stack = deque()
@@ -23,10 +27,6 @@ class TreeNode:
                 stack.append([child, level])
 
         return level_str
-    
-
-    def __repr__(self) -> str:
-        return str(self.value)
   
     def add_child(self, node):
         self.children.append(node)
@@ -39,35 +39,35 @@ class TreeNode:
             nodes += current_node.children
 
     def search(self, goal):
-        frontier = Queue()
+        frontier = Stack()
         root_node = self
-        frontier.enqueue(root_node)
+        frontier.push(root_node)
         while not frontier.is_empty():
-            current_node = frontier.dequeue()
+            current_node = frontier.pop()
             if current_node.value == goal:
                 print('Goal found')
                 return current_node
             else:
-                for child in current_node.children:
-                    frontier.enqueue(child)
+                for child in reversed(current_node.children):
+                    frontier.push(child)
         print('{} is not in the tree'.format(goal))
         return 
 
     def search_path(self, goal):
-        frontier = Queue()
+        frontier = Stack()
         initial_path = [self]
-        frontier.enqueue(initial_path)
+        frontier.push(initial_path)
         while not frontier.is_empty():
-            current_path = frontier.dequeue()
+            current_path = frontier.pop()
             current_node = current_path[-1]
             if current_node.value == goal:
                 print('Goal found')
                 return current_path
             else:
-                for child in current_node.children:
+                for child in reversed(current_node.children):
                     new_path = current_path.copy()
                     new_path.append(child)
-                    frontier.enqueue(new_path)
+                    frontier.push(new_path)
         print('{} is not in the tree'.format(goal))
         return
 
